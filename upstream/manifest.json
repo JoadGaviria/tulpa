@@ -1,0 +1,66 @@
+[
+  {
+    "repository": "https://github.com/twbs/bootstrap",
+    "ref": "v5.3.8",
+    "commit": "25aa8cc0b32f0d1a54be575347e6d84b70b1acd7",
+    "files": [
+      {
+        "path": "upstream\\twbs\\bootstrap\\LICENSE",
+        "sha256": "4620c84ad5ce8602ff65640ed6b7c8b78ebb9e036584f0ebc1ccc88206a4bb51"
+      },
+      {
+        "path": "upstream\\twbs\\bootstrap\\site\\src\\assets\\examples\\dashboard\\index.astro",
+        "sha256": "0d8af774396796494da0e606151d594ec14c4226e48df381ebadac0acc0278db"
+      },
+      {
+        "path": "upstream\\twbs\\bootstrap\\site\\src\\assets\\examples\\dashboard\\dashboard.css",
+        "sha256": "36c0b73e2cfabeaac6816001cdeb3f1b1c6af4351e3d5092b8d8240027a99b1d"
+      }
+    ]
+  },
+  {
+    "repository": "https://github.com/soldair/node-qrcode",
+    "ref": "v1.5.4",
+    "commit": "3848ed2c17de5bcdead487417dbf14c5dd017f8d",
+    "files": [
+      {
+        "path": "upstream\\soldair\\node-qrcode\\license",
+        "sha256": "8df47c6ad9ac2c41eb9b2a72def9908959da0ede8dadd56c7b249c1bdb0c5ce6"
+      },
+      {
+        "path": "upstream\\soldair\\node-qrcode\\README.md",
+        "sha256": "2c562622aa4a285617dbf412fa51ae73b6f00a73c8423c295103c4bbbae72035"
+      }
+    ]
+  },
+  {
+    "repository": "https://github.com/chartjs/Chart.js",
+    "ref": "v4.5.1",
+    "commit": "9c5cf9fac7ec04a71b516e2aff3f7d76876be369",
+    "files": [
+      {
+        "path": "upstream\\chartjs\\Chart.js\\LICENSE.md",
+        "sha256": "41a84aa2caba645f966a18d9c2056b73e6d3a81d80bc0046bc0011a2634d4cce"
+      },
+      {
+        "path": "upstream\\chartjs\\Chart.js\\README.md",
+        "sha256": "30418232ad2cc5a51fa0938e12dc97e31cfd1fb3b0bc352132f281c0c10da348"
+      }
+    ]
+  },
+  {
+    "repository": "https://github.com/python-telegram-bot/python-telegram-bot",
+    "ref": "v22.5",
+    "commit": "0015fcdf9d0c5352e4352907a6ed186472596d37",
+    "files": [
+      {
+        "path": "upstream\\python-telegram-bot\\python-telegram-bot\\LICENSE",
+        "sha256": "ad8f8603e843f8973885313e3da5e63e5d522d50c3a876875d4b96bbfb49e112"
+      },
+      {
+        "path": "upstream\\python-telegram-bot\\python-telegram-bot\\examples\\echobot.py",
+        "sha256": "eef373d3a2ebb68a1dd6e037c7cf911b1c4a1ded68a9c0247ad3a9b71ce10016"
+      }
+    ]
+  }
+]

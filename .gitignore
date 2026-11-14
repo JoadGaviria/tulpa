@@ -1,0 +1,9 @@
+node_modules/
+.tools/
+.env
+*.log
+integrations/audio/*.ogg
+integrations/audio/*.mp3
+integrations/*.sqlite
+integrations/*.sqlite-journal
+__pycache__/

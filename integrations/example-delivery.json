@@ -1,0 +1,9 @@
+{
+  "schema": "tulpa.delivery.v1",
+  "id": "demo-M01-B-001",
+  "demo": true,
+  "lot": "M01",
+  "family": "B",
+  "accepted_kg": 8,
+  "language": "es"
+}

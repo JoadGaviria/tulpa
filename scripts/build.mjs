@@ -1,0 +1,26 @@
+import {build} from 'esbuild';
+import {readFile,writeFile,mkdir,copyFile} from 'node:fs/promises';
+import QRCode from 'qrcode';
+import {fileURLToPath} from 'node:url';
+const root=new URL('../',import.meta.url);
+process.chdir(fileURLToPath(root));
+await mkdir('dist',{recursive:true});
+const data=async name=>'data:image/png;base64,'+(await readFile(`public/${name}`)).toString('base64');
+const result=await build({entryPoints:['src/app.js'],bundle:true,minify:true,write:false,outdir:'build',platform:'browser',format:'iife',legalComments:'inline',target:'es2022'});
+let js=result.outputFiles.find(x=>x.path.endsWith('.js')).text;
+let css=result.outputFiles.find(x=>x.path.endsWith('.css')).text;
+js=js.replace('__LOGO_DATA__',await data('logo-tulpa.png')).replace('__CENTER_DATA__',await data('centro.png'));
+const dashboard=await readFile('upstream/twbs/bootstrap/site/src/assets/examples/dashboard/index.astro','utf8');
+const symbols=dashboard.match(/<svg xmlns="http:\/\/www.w3.org\/2000\/svg" class="d-none">[\s\S]*?<\/svg>/)[0];
+const html=(await readFile('src/index.html','utf8')).replace('<!--ICONS-->',symbols).replace('/*STYLES*/',css.replace(/<\/style/gi,'<\\/style')).replace('/*SCRIPT*/',()=>js.replace(/<\/script/gi,'<\\/script'));
+await writeFile('dist/index.html',html);await writeFile('dist/Tulpa-demo.html',html);
+const qrText='TULPA | LOTE M01 | Mora deshidratada 50 g | MUESTRA FICTICIA, NO A LA VENTA | Cauca, vereda por definir | 14-11-2026 | Secado solar con apoyo de biogas | CO2: pendiente de medicion';
+const qr=await QRCode.toDataURL(qrText,{width:420,margin:4,errorCorrectionLevel:'M'});
+await QRCode.toFile('dist/QR-lote-M01.png',qrText,{width:1000,margin:4,errorCorrectionLevel:'M'});
+await QRCode.toFile('dist/QR-lote-M01.svg',qrText,{type:'svg',margin:4,errorCorrectionLevel:'M'});
+// Independent public page: no operator code, storage access, deliveries or financial seed data.
+const publicPage=`<!doctype html><html lang="es-CO"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tulpa · Lote M01</title><style>${css}</style><body><main style="max-width:900px"><img src="${await data('logo-tulpa.png')}" alt="Tulpa" style="width:120px"><p class="tag d-inline-block">Muestra ficticia · No está a la venta</p><h1>Una cosecha compartida.</h1><p>Lote M01 · Mora deshidratada · 50 g</p><div class="two-col"><section class="panel"><h2>Origen de demostración</h2><p>Familias A y B (ficticias). Cauca, Colombia. Vereda pendiente de definir. Fecha: 14 de noviembre de 2026.</p><h3>Así se transforma</h3><ol><li>Recibir y pesar fruta sana.</li><li>Seleccionar y lavar.</li><li>Secar con colector solar y apoyo de biogás por intercambiador.</li><li>Empacar.</li></ol><h3>Huella de carbono</h3><p>Pendiente de medir la línea base. No se declara CO₂ evitado.</p></section><aside class="qr-wrap"><img src="${qr}" alt="QR de texto público del lote M01" style="max-width:100%"><h2>LOTE M01</h2><p class="small">Este código no incluye pagos ni datos personales.</p></aside></div><section class="panel mt-4"><h2>Secado ilustrativo</h2><p>Horas: 0 / 4 / 8 / 12 / 16.<br>Humedad simulada: 88 / 67 / 45 / 27 / 15 %.</p><p>Datos ilustrativos, sin calibración ni certificación de inocuidad. Paneles fotovoltaicos para electricidad; colector solar para calor; biogás como apoyo.</p></section><p class="small mt-4">Tulpa · Cauca Innova. Logo aportado por Joad; desarrollo asistido por IA. Identidad definitiva por codiseñar.</p></main></body></html>`;
+await writeFile('dist/lote-M01.html',publicPage);
+await writeFile('dist/Etiquetas-M01.html',`<!doctype html><html lang="es-CO"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tulpa · Etiquetas M01</title><style>${css}</style><body><main><h1 class="no-print">Etiquetas Tulpa</h1><p class="no-print">Imprimir desde el navegador a tamaño real. QR de texto público sin internet.</p><div class="label-sheet">${Array.from({length:6},()=>`<article class="label-unit"><h2>Tulpa</h2><p>Mora deshidratada · 50 g</p><img width="180" height="180" src="${qr}" alt="QR del lote"><h3>LOTE M01</h3><small>Muestra de diseño · No está a la venta.<br>Secado solar con apoyo de biogás.<br>CO₂: pendiente de medición.</small></article>`).join('')}</div></main></body></html>`);
+await copyFile('docs/TERCEROS.md','dist/CREDITOS.md');
+console.log(`Built offline demo: ${(Buffer.byteLength(html)/1024/1024).toFixed(2)} MB; public lot, labels, PNG and SVG QR.`);
